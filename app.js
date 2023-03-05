@@ -1,58 +1,43 @@
 'use strict';
 
 /*
-    Sets
+    Структура Map  
 
-    Что это такое
-
-    Множество - совокупность каких-либо объектов
-
-    множество - тип и структура данных в информатике, которая ялвяется реализацией математического объекта множества
-
-    Данные типы множества позволяют хранить ограниченное число значений определенного типа без определенного порядка
 */
 
-const flights = ['Russia', 'USA', 'London', 'London', 'USA'];
-//Уникализировать данные
-const setFlights = new Set(flights);
-console.log(setFlights); //Set(3) {'Russia', 'USA', 'London'}
-console.log(setFlights.size); // 3
-console.log(setFlights.has('Russia')); //true
-setFlights.add('Paris');
-console.log(setFlights); // Set(4) {'Russia', 'USA', 'London', 'Paris'}
-// setFlights.delete('London');
-// setFlights.clear();
-// console.log(setFlights); // Set(0) {size: 0}
+const wetherMap = new Map();
+wetherMap.set('London', '10');
+wetherMap.set('Moscow', '7');
 
-for (const flight of setFlights) {
-  console.log(flight);
-}
+/* Chaining set */
+wetherMap
+  .set('Surgut', '-5')
+  .set('Novosib', '5');
 
-console.log([...setFlights]);// ['Russia', 'USA', 'London', 'Paris']
+console.log(wetherMap.get('Moscow'));// 7
+console.log(wetherMap.has('Moscow')); //true - проверяет есть литакой ключ
 
-const setObj = new Set([{a: 1}, {b: 2}, {b: 2}]); // Уникализации не будет
-console.log(setObj);
+wetherMap.delete('London');
+wetherMap.clear();
 
+wetherMap
+  .set(1, 5) // 1- ключ, 5 - значение
+  .set(true, 'yes')
+  .set(true, 'yes!')// Перезапишет ключ выше
+  .set(false, 'no')
+  .set([1, 2, 3], 'array')
+  .set({a: 1}, {b: 1});
 
+console.log(wetherMap.size);// 5
 
-/* Через for */
+console.log(wetherMap.get([1, 2, 3])); // undefined
+console.log(wetherMap.get({a : 1})); // undefined
 
-// const makeUniq = (arr) => {
-//   const seen = {};
-//   const result = [];
-//   let j = 0;
-
-//   for(let i = 0; i < arr.length; i++) {
-//     const item = arr[i];
-//     const itemType = typeof item;
-//     const key = `${itemType}_${item}`;
-//     if (!seen[key]) {
-//       seen[key] = 1;
-//       result[j] = item;
-//     }
-//   }
-//   return result;
-// }
+/* Это происходит потому, что в рамках работы Map не сипользует значение наших объектов, потомучто массив и объект это не примитивные тип данных и они хранятся по какомут то адрессу в памяти - они фактически используют этот адресс памяти как ключ. Как получить этот адресс памяти?  */
+const arr = [1, 2, 3];
+wetherMap.set(arr, 'array')
+console.log(wetherMap.get(arr)); // array
 
 
-// console.log(makeUniq(flights));
+
+console.log(wetherMap);
