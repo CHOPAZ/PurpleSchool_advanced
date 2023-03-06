@@ -1,43 +1,29 @@
 'use strict';
 
 /*
-    Структура Map  
+    Быстрое создание Map  
 
 */
 
-const wetherMap = new Map();
-wetherMap.set('London', '10');
-wetherMap.set('Moscow', '7');
+// Альтернативный путь: В первом массиве мы перечисляем записи мапы, а во втором через запятую ключ и значение
 
-/* Chaining set */
-wetherMap
-  .set('Surgut', '-5')
-  .set('Novosib', '5');
+const wetherMap = new Map([
+  ['London', '10'],
+  ['Moscow', '7']
+]);
 
-console.log(wetherMap.get('Moscow'));// 7
-console.log(wetherMap.has('Moscow')); //true - проверяет есть литакой ключ
+console.log(wetherMap); // Map(2) {'London' => '10', 'Moscow' => '7'}
 
-wetherMap.delete('London');
-wetherMap.clear();
+/* Созздание из объекта
+  Хотим преобразовать наши объекты. Можно через Object.entries
+*/
 
-wetherMap
-  .set(1, 5) // 1- ключ, 5 - значение
-  .set(true, 'yes')
-  .set(true, 'yes!')// Перезапишет ключ выше
-  .set(false, 'no')
-  .set([1, 2, 3], 'array')
-  .set({a: 1}, {b: 1});
+const wetherObj = {
+  london: 10,
+  moscow: 7,
+  paris: 14
+}
 
-console.log(wetherMap.size);// 5
-
-console.log(wetherMap.get([1, 2, 3])); // undefined
-console.log(wetherMap.get({a : 1})); // undefined
-
-/* Это происходит потому, что в рамках работы Map не сипользует значение наших объектов, потомучто массив и объект это не примитивные тип данных и они хранятся по какомут то адрессу в памяти - они фактически используют этот адресс памяти как ключ. Как получить этот адресс памяти?  */
-const arr = [1, 2, 3];
-wetherMap.set(arr, 'array')
-console.log(wetherMap.get(arr)); // array
-
-
-
-console.log(wetherMap);
+console.log(Object.entries(wetherObj));// - это свойство можно использовать для конвертации объекта в Map 
+const wetherMap2 = new Map(Object.entries(wetherObj));
+console.log(wetherMap2); // Map(3) {'london' => 10, 'moscow' => 7, 'paris' => 14}
