@@ -1,29 +1,25 @@
 'use strict';
 
 /*
-    Быстрое создание Map  
+    Итерации по Map  
 
 */
-
-// Альтернативный путь: В первом массиве мы перечисляем записи мапы, а во втором через запятую ключ и значение
 
 const wetherMap = new Map([
-  ['London', '10'],
-  ['Moscow', '7']
+  ['London', 10],
+  ['Moscow', 7],
+  ['Paris', 14]
 ]);
 
-console.log(wetherMap); // Map(2) {'London' => '10', 'Moscow' => '7'}
-
-/* Созздание из объекта
-  Хотим преобразовать наши объекты. Можно через Object.entries
-*/
-
-const wetherObj = {
-  london: 10,
-  moscow: 7,
-  paris: 14
+for (const [key, value] of wetherMap) {
+  
 }
 
-console.log(Object.entries(wetherObj));// - это свойство можно использовать для конвертации объекта в Map 
-const wetherMap2 = new Map(Object.entries(wetherObj));
-console.log(wetherMap2); // Map(3) {'london' => 10, 'moscow' => 7, 'paris' => 14}
+//Конвертация Map обратно в массыви
+
+console.log([...wetherMap]); // (3) [Array(2), Array(2), Array(2)];
+console.log(wetherMap.keys()); // MapIterator {'London', 'Moscow', 'Paris'}
+console.log(wetherMap.values()); // MapIterator {10, 7, 14}
+
+console.log([...wetherMap.keys()]); //  ['London', 'Moscow', 'Paris']
+console.log([...wetherMap.values()]); // [10, 7, 14]
