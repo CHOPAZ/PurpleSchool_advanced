@@ -1,42 +1,42 @@
 'use strict';
 
 /*
-    Конвертация и проверка чисел
+    Библиотека Math
 
 */
+/* Квадратный корень */
+console.log(Math.sqrt(36));// 6
+console.log(36 ** (1/2))//6
 
-console.log(10 === 10.0); //true
+/* Кубический корень */
+console.log(Math.cbrt(27));// 3
 
-/* Js под капотом число представляет в бинарном виде ( 0 1 ), лимит хранения 64 бит вроде */
+/* Какой-то другой корень */
+console.log(16 ** (1/4)); // 2 - корень 4 степени из 16
 
-console.log(0.1 + 0.2); // 0.30000000000000004 - это связано из-за формата хранения и недостаточно точности работы JS с числами
+/* Определять знак числа. Исп. когда нужно взять знак нашего числа */
+console.log(Math.sign(-100));//-1
+console.log(Math.sign(35));//1
 
-/* Если нужна точность работы с числами, есть определенные библиотеки */
+/* Сделать число обсолютным( по модулю) */
+console.log(Math.abs(-100));//100
+console.log(Math.abs(100));//100
 
-console.log(0.2 + 0.2); //0.4 - тут все верно
+/* Экспонента, логарифмы */
+console.log(Math.exp(2))//7.38905609893065
 
-/*Проблема именно в хранении числа 0.1 в бинарном формате не имеет достаточной точности для вычисления */
+/* Получение минимального или максимального числа */
+console.log(Math.max(1, -2, 10, 0, 19)); // 19
+console.log(Math.min(1, -2, 10, 0, 19)); // -2
 
-/* Как преобразовывать строку в число */
-console.log(Number('10')); // 10;
-console.log(+'20');//20
-console.log(Number.parseInt('10', 2));//2 - разница в том, что parseInt принимает второй, опциональный параметр - в какой системе мы будем конвертировать 
-console.log(Number.parseInt('10', 2)); // 2
-console.log(Number.parseInt('11 sec', 10)); // 11
-console.log(Number.parseInt('sec 11', 10));// NaN
-console.log(Number.parseInt('11.5', 10))//11
-console.log(Number.parseFloat('11.5', 10))//11.5
+console.log(Math.max(1, -2, '10', true, 19, '20')); // 20
+console.log(Math.max(1, -2, '10', true, 19, '20s')); // NaN
 
+/* Часто на практике */
 
-/* P.s лучше использовать с Number.parsseInt/Float */
+const arr = [1, -2, 10, 0, 19];
+console.log(Math.max(arr));//NaN
+console.log(Math.max(...arr));// 19
 
-console.log(Number.isNaN(Number('10')));//false - потому что  Number('10') смогло преобразовать в число, и проверка на isNaN не прошла
-console.log(Number.isNaN(Number('10asf1')));// true
-
-/* Есть кейсы которые isNaN не отработает */
-console.log(Number.isNaN(Number(10 / 0))); // false - потому что 10 / 0 будет Infinity (бесконечность)
-console.log(Number.isFinite(10 / 0)); //false - показывает что оно является конечным числом, т.к бесконечность это false
-
-console.log(Number.isInteger(10));//true
-console.log(Number.isInteger(10.4));//false
+console.log(Math.random());//0.4317932297537139 и тд
 
