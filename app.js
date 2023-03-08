@@ -1,42 +1,32 @@
 'use strict';
 
 /*
-    Библиотека Math
+    Округление
 
 */
-/* Квадратный корень */
-console.log(Math.sqrt(36));// 6
-console.log(36 ** (1/2))//6
 
-/* Кубический корень */
-console.log(Math.cbrt(27));// 3
+/* Округление числа до ближвйщего целого */
+console.log(Math.round(1.5));// 2
+console.log(Math.round(1.6));// 2
+console.log(Math.round(1.4));// 1
+console.log(Math.round(1.3));// 1
 
-/* Какой-то другой корень */
-console.log(16 ** (1/4)); // 2 - корень 4 степени из 16
+/* Округление до верхнего значения */
+console.log(Math.ceil(1.1));//2
+console.log(Math.ceil(1.3));//2
+console.log(Math.ceil(1.7));//2
+console.log(Math.ceil(0.7));//1
 
-/* Определять знак числа. Исп. когда нужно взять знак нашего числа */
-console.log(Math.sign(-100));//-1
-console.log(Math.sign(35));//1
+/* Округления до нижнего значения */
+console.log(Math.floor(1.1));//1
+console.log(Math.floor(1.9));//1
+console.log(Math.floor(0.9));//0
 
-/* Сделать число обсолютным( по модулю) */
-console.log(Math.abs(-100));//100
-console.log(Math.abs(100));//100
+/* Округления число до целого */
+console.log(Math.trunc(2.9));//2
+console.log(Math.trunc(2.1));//2
+console.log(Math.trunc(1.1111111));//1
 
-/* Экспонента, логарифмы */
-console.log(Math.exp(2))//7.38905609893065
-
-/* Получение минимального или максимального числа */
-console.log(Math.max(1, -2, 10, 0, 19)); // 19
-console.log(Math.min(1, -2, 10, 0, 19)); // -2
-
-console.log(Math.max(1, -2, '10', true, 19, '20')); // 20
-console.log(Math.max(1, -2, '10', true, 19, '20s')); // NaN
-
-/* Часто на практике */
-
-const arr = [1, -2, 10, 0, 19];
-console.log(Math.max(arr));//NaN
-console.log(Math.max(...arr));// 19
-
-console.log(Math.random());//0.4317932297537139 и тд
-
+/* Округление до определенного знака. ВОЗВРАЩАЕТ СТРОКУ */
+console.log(1.49999.toFixed(1));// 1.5 - string
+console.log(Number(1.49999.toFixed(1)));// 1.5 - number
