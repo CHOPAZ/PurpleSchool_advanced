@@ -1,21 +1,17 @@
 'use strict';
 
 /*
-    Оператор остатка от деления
+    Разделитель чисел
 
 */
 
-console.log(15 / 2); //7.5
-console.log(15 % 2); //14 / 2 + 1 = 15 ( 1-остаток)
-console.log(14 % 2); //0
+const bigNum1 = 350500000;
+const bigNum2 = 350_500_000;
 
-const isEven = n => n % 2 === 0;
-const isOdd = n => n % 2 === 1;
-function isEvenFunc(n) {
-    return n % 2 === 0
-}
-console.log(isEven(15)); //false
-console.log(isEven(14)); //true
+const payment = 20_10;
+const payment2 = 2_0.1_0;
 
-console.log(isOdd(15));//true
-console.log(isOdd(14));//false
+console.log(Number('350_500_000'));//NaN
+console.log(Number('350500000'));//350500000
+console.log(Number.parseInt('350_500_000'))//350 - некоректно
+console.log(Number.parseFloat('350_500_000'))//350 - некоректно
