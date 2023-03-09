@@ -1,28 +1,25 @@
 'use strict';
 
 /*
-   Сравнение дат
+    Сделать функцию, которая принимает пользователя и проверяет, есть ли у него сегодня день рождения или нет
 
 */
 
-const first = new Date(2024, 10, 4);
-const second = new Date(2024, 10, 3);
+const user =  {
+	name: 'Vasia',
+	birthday: '03/09/2023'
+};
 
-/* Под капотом JS сравнивает Time Stempt ( миллисекунды) */
-console.log(first > second);//true
-console.log(first < second); // false
+function getBirthday(usr) {
+    const birthdayDate = new Date(usr.birthday);
+    const now = new Date();
+    if (birthdayDate.getMonth() !== now.getMonth()) {
+        return false
+    }
+    if (birthdayDate.getDate() !== now.getDate()) {
+        return false
+    }
+    return true
+}
 
-
-
-/* В данном случае он сравнивает ссылки на объект, а они разные поэтому false */
-const first1 = new Date(2024, 10, 4);
-const second1 = new Date(2024, 10, 4);
-
-console.log(first1 == second1);//false
-console.log(first1 === second1);//false
-
-/* Как же тогда сравнить */
-console.log(first1.getTime() == second1.getTime());//true
-console.log(first1.getTime() === second1.getTime());//true
-console.log(Number(first1) === Number(second1));//true
-
+console.log(getBirthday(user));
