@@ -1,49 +1,38 @@
 'use strict';
 
 /*
-    Напишите функцию, которая принимает 3 параметра:
-    - Сумма
-    - Валюта исходная
-    - Валюта для конвертации
-    И возвращает строку уже сконвертированной суммы с постфиксом валюты. Если не смог, то null
-    Для примера 3 валюты.
+   Создание дат
 
 */
 
-function conversionCurrencies(sum, initialCurrency, convertCurrency) {
-    const allCurrencies = [
-        {
-            name: 'USD',
-            mult: 1
-        },
-        {
-            name: 'RUB',
-            mult: 1 / 60
-        },
-        {
-            name: 'EUR',
-            mult: 1.1
-        }
-    ];
-    const initial = allCurrencies.find(c => c.name === initialCurrency);
-    if (!initial) {
-        return null
-    }
+const now = new Date();
+console.log(now);//Thu Mar 09 2023 22:14:50 GMT+0500 (Екатеринбург, стандартное время)
+console.log(new Date('01-01-2022'));//Sat Jan 01 2022 00:00:00 GMT+0500 (Екатеринбург, стандартное время)
+console.log(new Date('02/01/2022'));//Tue Feb 01 2022 00:00:00 GMT+0500 (Екатеринбург, стандартное время)
+console.log(new Date('10 янв 2023'));//invalid date;
 
-    const convert= allCurrencies.find(c => c.name === convertCurrency);
-    if (!initial) {
-        return null;
-    }
+/* В JS месяц идет с 0 */
+console.log(new Date(2024, 10, 20));//Wed Nov 20 2024 00:00:00 GMT+0500 (Екатеринбург, стандартное время)
 
-    return  new Intl
-        .NumberFormat('ru-RU', {style: 'currency', currency: convert.name})
-        .format(sum * initial.mult / convert.mult)
+console.log(new Date(2024, 12, 51));//Thu Feb 20 2025 00:00:00 GMT+0500 (Екатеринбург, стандартное время)
 
+console.log(new Date(2022, 11, 31, 10, 5, 10));//Sat Dec 31 2022 10:05:10 GMT+0500
 
-}
+console.log(new Date(0)); // Первый 0 - число миллесикунд с юникс времени  Thu Jan 01 1970 05:00:00
 
-console.log(conversionCurrencies(10000, 'RUB', 'USD'));//166,67 $
-console.log(conversionCurrencies(10000, 'RUB', 'EUR'));//151,52 €
-console.log(conversionCurrencies(10000, 'EUR', 'USD'));//11 000,00 $
+console.log(new Date(1 * 24 * 60 * 60 * 1000));//Fri Jan 02 1970 05:00:00
 
+console.log(Date.now());// Time stampt - 1678382666177 - миллисекунды которые прошли с начала времени
+
+console.log(new Date(Date.now()));// Thu Mar 09 2023 22:25:46 GMT+0500 - получили текущее время
+
+/* Методы  */
+
+console.log(now.getFullYear());//2023
+console.log(now.getDate());//9 день
+console.log(now.getDay());//4 -четвертый день недели четверг
+console.log(now.getTime());//1678382907376
+
+console.log(now.setFullYear(2030));//1899307939866
+console.log(new Date(now.setFullYear(2030)));//Sat Mar 09 2030 22:32:59 GMT+0500
 
