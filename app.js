@@ -1,32 +1,37 @@
 'use strict';
 
 /*
-   Работа с BigInt
+  Интернационализация чисел
 
 */
 
-/* Проблема, если число больше 9007199254740991, то работа с ним считается не безапасной(SAFE) */
-console.log(Number.MAX_SAFE_INTEGER);//9007199254740991 - максимальное доступное число для чисел
-console.log(Number.MIN_SAFE_INTEGER);// -9007199254740991 - 
-console.log(2**53 - 1);// 9007199254740991
+console.log(23000);//23000
 
-/* BigInt - позволяет работать с числами больше чем 9007199254740991 */
+const options = {
+    style: 'currency',
+    currency: 'RUB'
+}
 
-console.log(12312312312312312312321123n);//12312312312312312312321123n
-console.log(BigInt(12312312312312312312321123));//12312312312312311989665792n
-console.log(BigInt('12312312312312312312321123'));//12312312312312312312321123n
+const options2 = {
+    style: 'currency',
+    currency: 'USD'
+}
 
-console.log(10n + 10n);//20n
-// console.log(10n + 10);//Ошибка   Cannot mix BigInt and other types, use explicit conversions
-console.log(10n * 10n);// 100n;
+const options3 = {
+    style: 'decimal'
+}
 
-console.log(10n * BigInt(10));//100n
+const options4 = {
+    style: 'percent'
+}
 
-console.log(10n < 20);//true
-console.log(10n == 10);//true
-console.log(10n === 10);//false
+const options5 = {
+    style: 'unit',
+    unit: 'celsius'
+}
 
-console.log(10n / 3n);//3n
-console.log(10 / 3);//3.3333333333335
-
-/* BigInt не может иметь плавущую точку */
+console.log(new Intl.NumberFormat('ru-RU', options).format(23000));//23 000,00 ₽
+console.log(new Intl.NumberFormat('en-US', options2).format(23000));//$23,000.00
+console.log(new Intl.NumberFormat('ru-RU', options3).format(23000));//23 000
+console.log(new Intl.NumberFormat('ru-RU', options4).format(0.1));//10%
+console.log(new Intl.NumberFormat('ru-RU', options5).format(25));//25 °C
