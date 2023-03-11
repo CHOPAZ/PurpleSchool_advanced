@@ -1,31 +1,33 @@
 'use strict';
 
 /*
-    Интернационализация дат
+    Создание таймеров
 
 */
 
+console.log(1);
 
-const date = new Date();
+const boomTimer = setTimeout(() => {
+    console.log('Boom');
+}, 1000)
 
-console.log(new Date());//Thu Mar 09 2023 23:20:42 GMT+0500 (Екатеринбург, стандартное время)
+setTimeout((message, message2) => {
+    console.log(message);
+    console.log(message2);
+}, 2000, 'Bash!', 'Boom!')
 
-console.log(new Intl.DateTimeFormat('ru-RU').format(date));//09.03.2023
+/* Отмена Таймара */
+clearTimeout(boomTimer)
 
-const option1 = {
-    hour: 'numeric',
-    minute: 'numeric'
-}
+/*  */
 
-const option2 = {
-    hour: 'numeric',
-    minute: 'numeric',
-    month: 'long'
-}
+const messages = ['Krya', 'Gav'];
+setTimeout((message, message2) => {
+    console.log(message);
+    console.log(message2);
+}, 2000, ...messages)
 
-console.log(new Intl.DateTimeFormat('ru-RU', option1).format(date));//23:22
-console.log(new Intl.DateTimeFormat('en-US', option2).format(date));//March at 11:23 PM
-console.log(new Intl.DateTimeFormat('ru-RU', option2).format(date));//март в 23:24
+console.log(3);
 
-console.log(navigator.language);//ru-RU
-console.log(new Intl.DateTimeFormat(navigator.language, option1).format(date))//23:27
+
+
