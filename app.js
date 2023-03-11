@@ -1,33 +1,18 @@
 'use strict';
 
 /*
-    Создание таймеров
+    Таймеры и EventLoop. Точность таймеров
 
 */
 
-console.log(1);
+const mark1 = performance.now();
 
-const boomTimer = setTimeout(() => {
-    console.log('Boom');
+setTimeout(() => {
+    const mark2 = performance.now()
+    console.log(mark2 - mark1);
+    console.log(mark2);
 }, 1000)
 
-setTimeout((message, message2) => {
-    console.log(message);
-    console.log(message2);
-}, 2000, 'Bash!', 'Boom!')
-
-/* Отмена Таймара */
-clearTimeout(boomTimer)
-
-/*  */
-
-const messages = ['Krya', 'Gav'];
-setTimeout((message, message2) => {
-    console.log(message);
-    console.log(message2);
-}, 2000, ...messages)
-
-console.log(3);
 
 
 
