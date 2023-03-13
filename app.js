@@ -1,57 +1,35 @@
 'use strict';
 
 /*
-   Упражнение - корзина товара
+   Классы - скрывает под собой реализацию прототипов и функцию конструктор
+*/
 
-   Реализовать на функциях и прототипах корзину товаров с методами
-   - Добавить товар
-   - Увеличить число товаров
-   - Уменьшить число товаров ( удалить если их 0)
+class BookClass {
+    isRead = false;
+    constructor(title, author) {
+        this.title = title;
+        this.author = author;
+    }
+    read() {
+        this.isRead = true;
+    }
+}
+
+const lordOfRings = new BookClass('Lord', 'Tolkin');
+console.log(lordOfRings);
+console.log(lordOfRings instanceof BookClass); // true
+console.log(lordOfRings.__proto__);
+
+lordOfRings.read();
+console.log(lordOfRings);
+
+/* Особенности классов. Опровергает что это синтаксический сахар
+    1. Классы не поднимаются на верх как функции
+    2. Класс как и функции могут быть переданы и возвращены из функций
+    3. Тело класса всегда используется в strict режиме
 */
 
 
-const product = {
-    id: 1,
-    name: 'Bread',
-    count: 1
-}
 
-const Basket = function() {
-    this.products = [];
-}
 
-Basket.prototype.addProduct = function(product) {
-    if (this.products.find(product => product.id === product.id)) {
-        return
-    }
-    this.products.push(product);
-}
 
-Basket.prototype.increaseAmount = function(id) {
-    this.products = this.products.map(product => {
-        if (product.id === id) {
-            product.count++
-            return product
-        }
-        return product
-    })
-}
-
-Basket.prototype.decreaseAmount = function(id) {
-    this.products = this.products
-    .map(product => {
-        if (product.id === id) {
-            product.count--
-            return product
-        }
-        return product
-    })
-    .filter(product => product.count > 0)
-}
-
-const basket = new Basket();
-basket.addProduct(product);
-basket.increaseAmount(1)
-basket.decreaseAmount(1)
-basket.decreaseAmount(1)
-console.log(basket);
