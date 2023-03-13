@@ -1,33 +1,57 @@
 'use strict';
 
 /*
-   Prototype
+   Упражнение - корзина товара
 
-/* Функция конструктор User */
+   Реализовать на функциях и прототипах корзину товаров с методами
+   - Добавить товар
+   - Увеличить число товаров
+   - Уменьшить число товаров ( удалить если их 0)
+*/
 
-const Book = function(title, author) {
-    this.title = title
-    this.author = author;
-    this.idRead = false;
+
+const product = {
+    id: 1,
+    name: 'Bread',
+    count: 1
 }
 
-Book.prototype.read = function() {
-    this.idRead = true;
+const Basket = function() {
+    this.products = [];
 }
 
-Book.prototype.cover = 'Paper'
+Basket.prototype.addProduct = function(product) {
+    if (this.products.find(product => product.id === product.id)) {
+        return
+    }
+    this.products.push(product);
+}
 
-const lordOftheRing = new Book('Lord of the ring', "Tolkien");
-lordOftheRing.read()
-console.log(lordOftheRing.cover);
-console.log(lordOftheRing);
+Basket.prototype.increaseAmount = function(id) {
+    this.products = this.products.map(product => {
+        if (product.id === id) {
+            product.count++
+            return product
+        }
+        return product
+    })
+}
 
-/* Как увидеть этот метод в коде */
-console.log(lordOftheRing.__proto__);
-console.log(lordOftheRing.__proto__ === Book.prototype);//true
-console.log(Book.prototype.isPrototypeOf(lordOftheRing));//true
-console.log(Book.prototype.isPrototypeOf(Book));//false
+Basket.prototype.decreaseAmount = function(id) {
+    this.products = this.products
+    .map(product => {
+        if (product.id === id) {
+            product.count--
+            return product
+        }
+        return product
+    })
+    .filter(product => product.count > 0)
+}
 
-/* Важно понимать какое свойство есть у самого объекта, а какое свойство у прототипа */
-console.log(lordOftheRing.hasOwnProperty('cover'));//false
-console.log(lordOftheRing.hasOwnProperty('title'));//true
+const basket = new Basket();
+basket.addProduct(product);
+basket.increaseAmount(1)
+basket.decreaseAmount(1)
+basket.decreaseAmount(1)
+console.log(basket);
