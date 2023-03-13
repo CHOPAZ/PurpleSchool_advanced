@@ -1,31 +1,33 @@
 'use strict';
 
 /*
-    Оператор new
-    constructor function
-
-    Когда мы пишем new у нас происходят несколько шаго:
-
-    1. Создается пустой объект
-    2. Вызывается функция конструктор User = function(email, password) {}
-    3.  this.email = email -  email: "a@a.ru"
-    4. Созданный объект связывается с prototype
-    5. Возвращается объект автоматически
-*/
+   Prototype
 
 /* Функция конструктор User */
 
-const User = function(email, password) {
-    this.email = email;
-    this.password = password
+const Book = function(title, author) {
+    this.title = title
+    this.author = author;
+    this.idRead = false;
 }
 
-const user1 = new User('a@a.ru', '123')
-const user2 = new User('b@b.ru', '1233')
+Book.prototype.read = function() {
+    this.idRead = true;
+}
 
-console.log(user1);
-console.log(user2);
+Book.prototype.cover = 'Paper'
 
-/* Сравнить что User2 является инстанс этого пользователя */
+const lordOftheRing = new Book('Lord of the ring', "Tolkien");
+lordOftheRing.read()
+console.log(lordOftheRing.cover);
+console.log(lordOftheRing);
 
-console.log(user2 instanceof User); // true
+/* Как увидеть этот метод в коде */
+console.log(lordOftheRing.__proto__);
+console.log(lordOftheRing.__proto__ === Book.prototype);//true
+console.log(Book.prototype.isPrototypeOf(lordOftheRing));//true
+console.log(Book.prototype.isPrototypeOf(Book));//false
+
+/* Важно понимать какое свойство есть у самого объекта, а какое свойство у прототипа */
+console.log(lordOftheRing.hasOwnProperty('cover'));//false
+console.log(lordOftheRing.hasOwnProperty('title'));//true
