@@ -1,47 +1,59 @@
 "use strict";
 
 /*
-  Приватные методы и свойства. Позволяет реализовать инкапсуляцию (скрытие) полей или методов
+  Упражнение - класс пользователя
+
+  Реализовать класс пользователя, со свойствами
+  - логин
+  - пароль
+  Причем пароль при установке должен переворачиваться и в таком виде храниться.
+  Пароль и логин после создания изменить нельзя. Так же у класса добавить методы
+  - Смены пароля ( передаем старый и новый пароль)
+  - Сверки пароля
 */
 
-class Car {
-  /* К примеру хотим скрыть VIN номер машины. Будем использовать приватное поле */
-  #vin = 6;
-  speed;
-
-  /* методы */
-  #changeVin() {
-    console.log("changed");
+class User {
+  #login;
+  #_password;
+  constructor(login, password) {
+    this.#login = login;
+    // (this.#password = password.split("").reverse().join(""));
+    this.#password = password;
   }
 
-  test() {
-    this.#changeVin();
+  set #password(pass) {
+    // метод установки пароля
+    this.#_password = pass.split("").reverse().join("");
   }
-  
-  static #firld = 3;
+
+  get #password() {
+    // метод получения пароля
+    return this.#_password.split("").reverse().join("");
+  }
+
+  get login() {
+    //получение логина
+    return this.#login;
+  }
+
+  checkPassword(pass) {
+    return this.#password === pass;
+  }
+
+  changePassword(oldPass, newPass) {
+    if (!this.checkPassword(oldPass)) {
+      return false;
+    }
+    this.#password = newPass;
+    return true;
+  }
 }
 
-const car = new Car();
-// car.#vin; // ошибка, нет такого свойства
-
-/* # много вызывала вопросов, связано с тем как работает и парсится код JS. Для облегчения задачу выявления приватных и публичных полей используется # */
-
-/* Отличие приватных от публичных
-  Публичные - доступны из вне
-  Приватные - доступны только внутри
-*/
-
-car.test(); // Теперь #changeVin сработал и вывел changed
-
-/* Так же так же работают статические методы и свойства */
-// Car.#field() // недоступно
-
-/* Ограничения приватных методов
-  1. Извне никак не повлиять, изменить
-  2. Ограничения наследования - дальше по курсу
-
-  Что можно делать
-  1. Не сможем удалить приватное свойство через delete
-  2. Объявить в конструкторе приватное свойство и присвоить ему щзначение.Сначала нужно вне конструктора объявить его, затем в конструкторе уже можно присвоить ему значение.
-*/
-
+const user = new User("agent2711", "123456");
+console.log(user);// {#login: 'agent2711', #_password: '654321'}
+console.log(user.login);
+// user.login = 'sdf@s.ru' // неможем поменять логин
+console.log(user.checkPassword('123')); //false - проверка не прошла, пароль не правильный
+console.log(user.checkPassword('123456'))//true - проверка прошла успешно
+console.log(user.changePassword('123456', '7890')); //true - пароль изменен
+console.log(user); // {#login: 'agent2711', #_password: '0987'}
