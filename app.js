@@ -1,59 +1,38 @@
-"use strict";
+'use strict'
 
 /*
-  Упражнение - класс пользователя
-
-  Реализовать класс пользователя, со свойствами
-  - логин
-  - пароль
-  Причем пароль при установке должен переворачиваться и в таком виде храниться.
-  Пароль и логин после создания изменить нельзя. Так же у класса добавить методы
-  - Смены пароля ( передаем старый и новый пароль)
-  - Сверки пароля
+  Object.create
 */
 
-class User {
-  #login;
-  #_password;
-  constructor(login, password) {
-    this.#login = login;
-    // (this.#password = password.split("").reverse().join(""));
-    this.#password = password;
-  }
+const User = {
+  init(email, password) {
+    this.email1 = email
+    this.password1 = password
+  },
 
-  set #password(pass) {
-    // метод установки пароля
-    this.#_password = pass.split("").reverse().join("");
-  }
-
-  get #password() {
-    // метод получения пароля
-    return this.#_password.split("").reverse().join("");
-  }
-
-  get login() {
-    //получение логина
-    return this.#login;
-  }
-
-  checkPassword(pass) {
-    return this.#password === pass;
-  }
-
-  changePassword(oldPass, newPass) {
-    if (!this.checkPassword(oldPass)) {
-      return false;
-    }
-    this.#password = newPass;
-    return true;
-  }
+  log() {
+    console.log('log')
+  },
 }
+const user = Object.create(User)
+console.log(user)
+console.log(user.__proto__ === User) //true
+user.log()
 
-const user = new User("agent2711", "123456");
-console.log(user);// {#login: 'agent2711', #_password: '654321'}
-console.log(user.login);
-// user.login = 'sdf@s.ru' // неможем поменять логин
-console.log(user.checkPassword('123')); //false - проверка не прошла, пароль не правильный
-console.log(user.checkPassword('123456'))//true - проверка прошла успешно
-console.log(user.changePassword('123456', '7890')); //true - пароль изменен
-console.log(user); // {#login: 'agent2711', #_password: '0987'}
+/* На практике это используется не часто, потому что что нам нужно что бы задать у пользователя логин и пароль  */
+
+user.email = 'a@aa.ru'
+user.password = '123'
+/* Для избежания этого часто используется хак инит */
+user.init('bbb@b.ru', '121')
+
+/* Самое важное, что с помощью Object.create() мы создали вручную цепочку прототипов */
+
+const admin = Object.create(user);
+console.log(admin);
+
+/* Мы создали админ, в прототипе у него user, в прототипе у пользователя объект с методами log и init, в прототипе объекта сам корневой объект
+
+admin будет доступен метод log, потому что он унаследовался у user
+*/
+admin.log()
