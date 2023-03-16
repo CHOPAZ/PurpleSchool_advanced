@@ -3,7 +3,7 @@
 /*
   Принципы ООП в классах
 
-  Наследование. в ES6
+  Override методов - позволяет менять свойства или метода в классе, который унаследовался от др класса
 */
 
 class Book {
@@ -12,25 +12,25 @@ class Book {
     this.author = author;
   }
 
-  buy() {
-    console.log('Buy');
+  info() {
+    console.log(`${this.title} - ${this.author}`);
   }
 }
 
-/* extends - расширять. С помощью него мы связали прототип Book c AudioBook 
- И еще необходимо прокинуть конструктор через super
-*/
-class AudioBook extends Book {
-  constructor(title, author, lenMin) {
+const book1 = new Book('Lord Of The Rings', 'Tolkein', 20 * 60);
+book1.info(); //Lord Of The Rings - Tolkein
+
+class EBook extends Book {
+  constructor(title, author, pages) {
     super(title, author);
-    this.lenMin = lenMin;
+    this.pages = pages;
   }
 
-  log() {
-    console.log(`${this.title} - ${this.lenMin}`);
+  /* У нас будет тоже метод info, что бы перезаписать исходный метод info. В этом заключается метод Override */
+  info() {
+    console.log(`${this.title} - ${this.author} - ${this.pages}`);
   }
 }
 
-const book = new AudioBook('Lord Of The Rings', 'Tolkein', 20 * 60);
-book.log();
-book.buy();
+const book2 = new EBook('Lord Of The Rings', 'Tolkein', 100);
+book2.info()
