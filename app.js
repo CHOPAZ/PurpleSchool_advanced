@@ -3,80 +3,54 @@
 /*
   Принципы ООП в классах
 
-  Полиморфизм.
-
-  Виды полиморфизма:
-  1. Ad-hock полиморфизм - возможность по разному исполнять функцию от типов данных:
-  '2' + '4' = 24 - сконкатенируются
-  2 + 4 = 6 - сложатся
-
-
-  2. Параметрический полиморфизм - когда мы можем выполнять одну и туже функцию но с разным типом аргументов:
-  console.log(1)
-  console.log('1)
-  console.log({a: 1})
-
-
-  3. Полиморфизм подтипов <---- ООП
+  Паттерн Builder и chaining
 */
 
-/*  */
+const arr = [1, 2, 3, 4];
+arr
+  .map((a) => a * 2)
+  .filter((a) => a > 0)
+  .find((a) => a < 100);
 
-/* Класс Врага */
-class Enemy {
-  health;
-  constructor(health) {
-    this.health = health;
+class Wallet {
+  balance = 0;
+  add(sum) {
+    this.balance += sum;
+    return this;
   }
 
-  reciveDamage(damage) {
-    if (this.health === 0) {
-      return console.log('Enemy dead');
-    }
-    console.log(`${this.health} - ${damage} = ${this.health - damage}`);
-    this.health -= damage;
-  }
-}
-
-/* Класс Меча */
-
-class Sword {
-  #damage;
-  constructor(damage) {
-    this.#damage = damage;
-  }
-  /* Использование полиморфизма */
-  strikeDamage(enemy) {
-    enemy.reciveDamage(this.#damage);
+  remove(sum) {
+    this.balance -= sum;
+    return this;
   }
 }
 
-/* Класс Орка. Частный случай врага */
+const wallet = new Wallet();
+// const res = wallet.add(100).remove(10);// работать не будтет
 
-class Ork extends Enemy {
-  constructor(health) {
-    super(health);
+/* ЧТо бы чейнинг сработал нужно вернуть this */
+const res = wallet.add(100).remove(10);
+console.log(res); //Wallet {balance: 90}
+
+/* Почему же паттерн называется Builder - исползуется для нескольких последовательных операций */
+
+class Builder {
+  house = {};
+
+  addRoof() {
+    this.house.roof = 'Roof';
+    return this;
   }
 
-  reciveDamage(damage) {
-    if (this.health == 0) {
-      return console.log('Ork dead');
-    }
-    if (Math.random() > 0.5) {
-      console.log(`${this.health} - ${damage} = ${this.health - damage}`);
-      this.health -= damage;
-    }
+  addFloor() {
+    this.house.floor = 'Floor';
+    return this;
+  }
+  /* Метод исполнения, который вернут объект house */
+  excecute() {
+    return this.house;
   }
 }
 
-class Troll extends Enemy {}
-
-const enemy = new Enemy(100);
-const sword = new Sword(10);
-const ork = new Ork(100);
-const troll = new Troll(20);
-// sword.strikeDamage(enemy); //100 - 3 = 97
-// sword.strikeDamage(enemy); //97 - 3 = 94
-
-// sword.strikeDamage(ork);
-sword.strikeDamage(troll);
+const house = new Builder().addRoof().addFloor().excecute();
+console.log(house);
