@@ -7,14 +7,57 @@
   Принципы SOLID:
   1. S: Single Responsibility Principle (Принцип единой ответственности). - Класс должен быть ответственен лишь за что-то одно
 
-  2. O: Open-Closed Principle (Принцип открытости-закрытости). Должны быть открыты для расширения, но не для модификации.
-
-  3. L: Liskov Substitution Principle (Принцип подстановки Барбары Лисков).  Классы-наследники могли бы использоваться вместо родительских классов, от которых они образованы, не нарушая работу программы.
-
-  4. I: Interface Segregation Principle (Принцип разделения интерфейса). Создавайте узкоспециализированные интерфейсы, предназначенные для конкретного клиента. Клиенты не должны зависеть от интерфейсов, которые они не используют.
-
-  5. D: Dependency Inversion Principle (Принцип инверсии зависимостей). Модули верхних уровней не должны зависеть от модулей нижних уровней. Оба типа модулей должны зависеть от абстракций.
-  Абстракции не должны зависеть от деталей. Детали должны зависеть от абстракций.
-
 
 */
+
+class Character {
+  #invebtory = [];
+  #health = 10;
+
+  pickItem() {
+    this.#invebtory.push(item);
+  }
+
+  reciveDamage(damage) {
+    this.#health -= damage
+  }
+
+  saveCharacter() {
+    localStorage.setItem('char', this)
+  }
+
+  loadCaracter() {
+    //....
+  }
+}
+
+/* В классе Character происходит нарушения принципа единой отпетственности
+  Наш Character не должен инкапсулировать логику с базой данных
+*/
+
+/* Правильный класс */
+ 
+/* Класс работы с базой данных */
+class DB {
+  save(item) {
+    localStorage.setItem('char', item)
+  }
+
+  load() {
+    //....
+  }
+}
+
+/* класс Character */
+class Character1 {
+  #invebtory = [];
+  #health = 10;
+
+  pickItem() {
+    this.#invebtory.push(item);
+  }
+
+  reciveDamage(damage) {
+    this.#health -= damage
+  }
+}
