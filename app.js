@@ -5,59 +5,80 @@
   Solid - принципы, которые лежат в основае дизайна построения приложения в ООП. Как хорошо и првильно простроить приложение в ООП. Относятся больше к дизайну и архетектуре приложения, чем к фундаментальным вещам
 
   Принципы SOLID:
-  1. S: Single Responsibility Principle (Принцип единой ответственности). - Класс должен быть ответственен лишь за что-то одно
+  2. O: Open-Closed Principle (Принцип открытости-закрытости). Должны быть открыты для расширения, но не для модификации. - Когда хотим расширить поведение нашего класса, мы можем сделать, но не путем изменения класса внутри
 
 
 */
 
-class Character {
-  #invebtory = [];
-  #health = 10;
+/* Как не надо делать */
 
-  pickItem() {
-    this.#invebtory.push(item);
-  }
+class Treasure { // сокровище
 
-  reciveDamage(damage) {
-    this.#health -= damage
-  }
-
-  saveCharacter() {
-    localStorage.setItem('char', this)
-  }
-
-  loadCaracter() {
-    //....
-  }
 }
 
-/* В классе Character происходит нарушения принципа единой отпетственности
-  Наш Character не должен инкапсулировать логику с базой данных
+class Coin extends Treasure { // монета
+
+}
+
+class Crystal extends Treasure { // кристал
+
+}
+
+/* Представим что хотим реализовать класс инвентаря, при добавлении монетки или кристала добавляет себе в каунтер текущих очков, которые заработали
+как неправильно делать:
 */
 
-/* Правильный класс */
- 
-/* Класс работы с базой данных */
-class DB {
-  save(item) {
-    localStorage.setItem('char', item)
-  }
+class Invetory {
+  #score;
+  pick(treasure) {
+    if (treasure instanceof Coin) {
+      this.#score += 1
+    }
 
-  load() {
-    //....
+    if (treasure instanceof Crystal) {
+      this.#score += 10
+    }
   }
 }
 
-/* класс Character */
-class Character1 {
-  #invebtory = [];
-  #health = 10;
+/* В чем же неправильность
+  Если у нас появился в игре например  класс бриллиант.
+  В рамках этого бриллианта мы должны добавить 20 очков.
+  И теперь надо править код в инвентаре
+*/
 
-  pickItem() {
-    this.#invebtory.push(item);
-  }
+class Brilliant extends Treasure {
 
-  reciveDamage(damage) {
-    this.#health -= damage
+}
+
+
+
+
+
+
+/* Как от этого избавитсям */
+
+class Treasure1 { // сокровище
+  value = 0;
+}
+
+class Coin1 extends Treasure { // монета
+  value = 1;
+}
+
+class Crystal1 extends Treasure { // кристал
+  value = 10;
+}
+
+class Brilliant1 extends Treasure {
+  value = 20;
+}
+
+/* И когда мы берем какоето сокровище мы могли бы просто увеличивать score на определенное value */
+
+class Invetory1 {
+  #score;
+  pick(treasure) {
+    this.#score += treasure.value
   }
 }
