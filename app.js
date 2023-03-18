@@ -5,70 +5,62 @@
   Solid - принципы, которые лежат в основае дизайна построения приложения в ООП. Как хорошо и првильно простроить приложение в ООП. Относятся больше к дизайну и архетектуре приложения, чем к фундаментальным вещам
 
   Принципы SOLID:
-  4. I: Interface Segregation Principle (Принцип разделения интерфейса). Создавайте узкоспециализированные интерфейсы, предназначенные для конкретного клиента. Клиенты не должны зависеть от интерфейсов, которые они не используют.
+  5. D: Dependency Inversion Principle (Принцип инверсии зависимостей). Модули верхних уровней не должны зависеть от модулей нижних уровней. Оба типа модулей должны зависеть от абстракций.
+  Абстракции не должны зависеть от деталей. Детали должны зависеть от абстракций.
 
-  Классне должен зависить от методов, которые ему не нужны
+
 */
 
-/* Плохой пример */
-
-class Weapon {
-  // оружие
-  strike() {
-    //удар
+class DB {
+  save(item) {
+    //save
   }
-
-  shoot() {
-    //стрелять
+}
+class ToDoList {
+  items = [1, 2, 3];
+  db = new DB();
+  saveToDB() {
+    this.db.save(this.items);
   }
 }
 
-/* Реализация оружия */
-class Rifle extends Weapon { // винтовка
-  strike() {
-    //неэффективно
-  }
+/* Проблема в том, что теперь ToDoList зависит от DB
+  И если мы теперь перейдем например на другуюбазу данных, например MongoDB
+  И нам снова прийдется переписывать код, и не сможем сохранять в две базы данных
+*/
 
-  shoot() {
-    //...
+class MongoDB extends DB {
+  //...
+}
+
+/* Коректная запись кода. ToDoList1 не зависит от конкретной базы данных*/
+
+class DB1 {
+  save(item) {
+    console.log(`Saved to DB: ${item}`);
   }
 }
 
-class Sword extends Weapon { // меч
-  strike() {
-    //эффективно
-  }
-
-  shoot() {
-    // неверно, меч не стреляет
+class MongoDB1 extends DB1 {
+  save(item) {
+    console.log(`Saved to Mongo: ${item}`);
   }
 }
 
+class ToDoList1 {
+  items = [1, 2, 3];
+  db;
+  constructor(db) {
+    this.db = db;
+  }
 
-
-
-
-/* Как поступть - необходимо минимизировать те вещи, которые будут в Weapon */
-
-/* В weapon необходимо положить то, что дейцствительно будет нужно и винтовке и мячу */
-class Weapon1 {
-  /* Например, стоимость, метод чистки, нанесение урона */
-
-  dealDamage() { // нанесение урона
-
+  saveToDB() {
+    this.db.save(this.items);
   }
 }
 
-/* Реализация оружия */
-class Rifle1 extends Weapon { // винтовка
-  shoot() {
-    this.dealDamage()
-  }
-}
+const list1 = new ToDoList1(new DB1());
+list1.saveToDB(); //Saved to DB: 1,2,3
 
-class Sword1 extends Weapon { // меч
-  strike() {
-    this.dealDamage()
-  }
-
-}
+const list2 = new ToDoList1(new MongoDB1());
+list2.saveToDB(); //Saved to Mongo: 1,2,3
