@@ -5,80 +5,47 @@
   Solid - принципы, которые лежат в основае дизайна построения приложения в ООП. Как хорошо и првильно простроить приложение в ООП. Относятся больше к дизайну и архетектуре приложения, чем к фундаментальным вещам
 
   Принципы SOLID:
-  2. O: Open-Closed Principle (Принцип открытости-закрытости). Должны быть открыты для расширения, но не для модификации. - Когда хотим расширить поведение нашего класса, мы можем сделать, но не путем изменения класса внутри
+  3. L: Liskov Substitution Principle (Принцип подстановки Барбары Лисков).  Классы-наследники могли бы использоваться вместо родительских классов, от которых они образованы, не нарушая работу программы.
+
 
 
 */
 
-/* Как не надо делать */
+class User {
+  role = 'user';
 
-class Treasure { // сокровище
-
-}
-
-class Coin extends Treasure { // монета
-
-}
-
-class Crystal extends Treasure { // кристал
-
-}
-
-/* Представим что хотим реализовать класс инвентаря, при добавлении монетки или кристала добавляет себе в каунтер текущих очков, которые заработали
-как неправильно делать:
-*/
-
-class Invetory {
-  #score;
-  pick(treasure) {
-    if (treasure instanceof Coin) {
-      this.#score += 1
-    }
-
-    if (treasure instanceof Crystal) {
-      this.#score += 10
-    }
+  getRole() {
+    return this.role;
   }
 }
 
-/* В чем же неправильность
-  Если у нас появился в игре например  класс бриллиант.
-  В рамках этого бриллианта мы должны добавить 20 очков.
-  И теперь надо править код в инвентаре
+/* Функция которая логирует нашу роль в консоль отладки  */
+function logRole(user) {
+  console.log('Role: ' + user.getRole().toUpperCase());
+}
+
+logRole(new User()); //Role: USER
+
+/* Расширяем приложение и поялвяется класс админа, */
+
+class Admin extends User {
+  role = ['user', 'admin'];
+}
+
+// logRole(new Admin()); // будет ошибка user.getRole(...).toUpperCase is not a function - потому что role у нас массив и не может преобразован в toUpperCase()
+
+/* Как улутшить
+  Если мы хотим что бы у админа остался role = [], то ему надо добавить метод возвращающий строку
 */
 
-class Brilliant extends Treasure {
+class Admin1 extends User {
+  role = ['user', 'admin'];
 
-}
-
-
-
-
-
-
-/* Как от этого избавитсям */
-
-class Treasure1 { // сокровище
-  value = 0;
-}
-
-class Coin1 extends Treasure { // монета
-  value = 1;
-}
-
-class Crystal1 extends Treasure { // кристал
-  value = 10;
-}
-
-class Brilliant1 extends Treasure {
-  value = 20;
-}
-
-/* И когда мы берем какоето сокровище мы могли бы просто увеличивать score на определенное value */
-
-class Invetory1 {
-  #score;
-  pick(treasure) {
-    this.#score += treasure.value
+  getRole() {
+    return this.role.join(', ');
   }
 }
+logRole(new Admin1()); // Role: USER, ADMIN
+
+
+/* Лучше сделать role закрытыми */
