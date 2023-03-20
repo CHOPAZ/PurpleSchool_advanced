@@ -1,19 +1,27 @@
 'use strict';
 
 /*
-  Promises и fetch.
+  Обработка promises 
 
-  Promises - фишка ES6, это контейнер(обертка) для значения, которое вернется в будущем.
-  Не нужно использовать callback
-  Не нужно использовать события.
-  Промис мы можем создавать сами, так и получать из Web-API
-
-  Есть разлычные состояния (жизненный цикл):
-  1.Pending - начальное состояние
-  2.Settled
-  2.1 Fulfilled - либо, все успешно
-  2.2 Rejected - либо, ошибка
+  promises возвращает 3 доп.метода
+  1. catch - обработка ошибок
+  2. finally - всегда выполняетя в результате
+  3. then - для работы с fullfield, принимает responce , который будет получен после того как вернется запрос с данными
 */
 
-const res = fetch('https://dummyjson.com/products/1');
-console.log(res); //Promise {<pending>} - это контейнер, в который потом будет приходить ответ
+fetch('https://dummyjson.com/products/1')
+  .then((response) => {
+    console.log(response);
+    return response.json(); // тоже возвращает промис
+  })
+  .then((data) => {
+    console.log(data); // получили уже данные
+  });
+
+/* Упростим  запись*/
+
+const res = fetch('https://dummyjson.com/products/1')
+  .then((response) => response.json())
+  .then((data) => data);
+
+console.log(res); //получим снова  Promise {<pending>}, а не данные как выше - код является асинхронным, поэтому когда мы пытаемся получить данные и положить это res - крч дальше расскажут как правильно сделать
