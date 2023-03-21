@@ -1,22 +1,57 @@
 'use strict';
 
 /*
-  Сделать запрос на  https://dummyjson.com/products/categories,
-  получить список категорий и отобразить <select> выбора категорий.
+  Ручное создание ошибок
 */
 
-function createSelect(arr) {
-  const el = document.querySelector('.filter');
-  el.innerHTML = `<select> 
-    ${arr.map(arrEl => `<option value=${arrEl}>${arrEl}</option>`)}  
-  </select>`
-}
+fetch('https://dummyjson.com/productss')
+  .then((response) => {
+    console.log(response);
+    return response.json();
+  })
+  .then(({ products }) => {
+    console.log(products);
+    return fetch('https://dummyjson.com/products/' + products[0].id);
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    const el = document.querySelector('.filter');
+    el.innerHTML = error; //при таком выводе ошибки, пользователю будет не понятно что за ошибка
+  });
 
-function getCategories() {
-  fetch('https://dummyjson.com/products/categories')
-    .then((response) => response.json())
-    .then((data) => createSelect(data))
-    .catch(error => console.error(`Ошибка: ${error}`))
-}
+/* Необходимо корректно выводить корректное сообщение об ошибке
+  
+  Мы можем сами тригерить определнные ошибки, для дальнейшей ее обработки
+  throw - выкидывает ошибку, как только появляется throw, все остальное становится не принципиальным, выполнение прерывается
+*/
 
-getCategories()
+fetch('https://dummyjson.com/productss')
+  .then((response) => {
+    console.log(response);
+    if (!response.ok) {
+      throw new Error(`Is error ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(({ products }) => {
+    console.log(products);
+    return fetch('https://dummyjson.com/products/' + products[0].id);
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Is error ${response.status}`);
+    }
+    response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    const el = document.querySelector('.filter');
+    el.innerHTML = error.message;
+  });
+
+  /* Если мы каждый раз будет писать одинаковую обработку ошибок, нарушается принцип DRY - как этого избежать будет в следующем упражнении */
