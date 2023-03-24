@@ -1,28 +1,23 @@
 'use strict';
 
 /*
-  Сделать функцию, которая принимает строку и текст ошибки и возвращает уже Promise с JSON из тела запроса
+  Как работает асинхронность. Как в EventLoop кладутся promise
+  Примры работы Event Loop
+
+  Satack вызовов
+  WEB API
+  Callback Queue
+  Microtask Que - сюда попадают promise
 */
 
-function getData(url, errorMessage) {
-  return fetch(url)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`${errorMessage} ${response.status}`);
-    }
-    return response.json();
-  });
-}
+console.log(1); //1
 
-getData('https://dummyjson.com/products', 'Can not get products')
-  .then(({ products }) => {
-    console.log(products);
-    return getData('https://dummyjson.com/products/' + products[0].id, 'Can not get product');
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => {
-    const el = document.querySelector('.filter');
-    el.innerHTML = error.message;
-  });
+setTimeout(() => {
+  console.log(2); //4
+}, 0);
+
+Promise.resolve(3).then((res) => console.log(res)); //3
+
+console.log(4); //2
+
+for (let i = 0; i < 10000000000000; i++) {}
