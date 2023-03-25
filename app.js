@@ -1,33 +1,34 @@
 'use strict';
 
 /*
-  Статические методы Promise
+  Упражнение создание fetch
 
-  Promise.resolve() - не  создает новый конструктор промисов, а мнговенно вызываенм resolve нашего промиса 
+  Сделать функцию myFetch, которая выполняет внутри XMLHttpRequest, которая возвращает из себя промис, и мы можем его обрабатывать через then()
 */
 
-Promise.resolve('Success').then((data) => console.log(data)); //получили мнгновенный ответ Success
+function myFetch(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.send();
 
-/* Сравним как будут отрабатывать промисы с течением времени */
+    xhr.addEventListener('load', function () {
+      if(this.status > 400) {
+        reject(new Error(this.status))
+      }
+      resolve(this.responseText);
+    });
 
-const prom = new Promise((resolve) => {
-  console.log('Constructor promise');
+    xhr.addEventListener('error', function () {
+      reject(new Error(this.status));
+    });
 
-  setTimeout(() => {
-    resolve('Timer');
-  }, 1000);
-});
+    xhr.addEventListener('timeout', function () {
+      reject(new Error('Timiout'));
+    });
+  });
+}
 
-prom.then((data) => console.log(data));
-
-Promise.resolve('Instant').then((data) => console.log(data));
-
-Promise.reject(new Error('Error')).catch((error) => console.error(error))
-
-/* Вывод будет следующим:
-  Constructor promise
-  Success
-  Instant
-  Timer
-  Error
-*/
+myFetch('https://dummyjson.com/products')
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));
