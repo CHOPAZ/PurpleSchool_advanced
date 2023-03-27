@@ -1,0 +1,22 @@
+
+.activity__btn {
+  padding: 10px;
+  background-color: blueviolet;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  color: white;
+}
+
+.wrapper > div {
+  background: #333;
+  padding: 20px;
+}
