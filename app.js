@@ -1,49 +1,91 @@
 'use strict';
 
 /*
-  Последовательность выполнения на верхнем уровне
-  Например:
-  1. Сделать действие
-  2. Получить продукты.
-  3. Выполнить действие
-
-  Способ: Immediately Invoked Function Expression - IIFE
+  Параллельное выполнение
 */
 
-/* Асинхронные стрелочные функции */
+/* Проблематика.
+  Получение продуктов происходит друг за другом, затрачивает много времени 
+*/
 
-const asyncArrow = async () => {
-  const responce = await fetch('https://dummyjson.com/products');
-  const data = await responce.json();
-  return data;
-};
+async function getAllProducts() {
+  const responce = await fetch('https://dummyjson.com/products/');
+  return responce.json();
+}
 
-/* Не правильно */
-console.log('1');
-asyncArrow()
-  .then((data) => {
-    console.log(data);
-  })
-  .finally(() => console.log('3'));
+async function getProduct(id) {
+  const responce = await fetch('https://dummyjson.com/products/' + id);
+  return responce.json();
+}
 
-/* Правильная запись */
-(async () => {
-  console.log(1);
-  const res = await asyncArrow()
-  console.log(res);
-  console.log(2);
-})();
-
-/* P.S В случае использования try catch нужно перебросить ошибку дальше */
-
-const asyncArrow2 = async () => {
-  try {
-    //code
-  } catch (error) {
-    console.error(error);
-    throw error;
+async function main() {
+  const { products } = await getAllProducts();
+  for (const product of products) {
+    const res = await getProduct(product.id);
+    console.log(res);
   }
-};
-asyncArrow2()
-  .then()
-  .catch((error) => console.log(error));
+}
+
+// main();
+
+/* Решение проблематики через Promise.all()
+  Этот метод принимает массив промисов, который мы хотим запустить параллельно.
+  Вернет промис успешным, когда все промисы внутри вернутся успешно, но если один упадет , то упадет все 
+
+  Получение продуктов происходит параллельно
+
+
+
+*/
+
+async function getAllProducts1() {
+  const responce = await fetch('https://dummyjson.com/products/');
+  return responce.json();
+}
+
+async function getProduct1(id) {
+  const responce = await fetch('https://dummyjson.com/products/' + id);
+  return responce.json();
+}
+
+async function main1() {
+  const { products } = await getAllProducts1();
+  const res = await Promise.all([
+    getProduct1(1),
+    getProduct1(2),
+    getProduct1(3),
+  ]);
+  console.log(res);
+  // for (const product of products) {
+  //   const res = await getProduct1(product.id);
+  //   console.log(res);
+  // }
+}
+
+// main1();
+
+
+/* Promise.all() можно использовать когда необходимо получить множество элементов сразу и они могут быть запараллелены
+*/
+
+
+
+/*  */
+
+async function getAllProducts2() {
+  const responce = await fetch('https://dummyjson.com/products/');
+  return responce.json();
+}
+
+async function getProduct2(id) {
+  const responce = await fetch('https://dummyjson.com/products/' + id);
+  return responce.json();
+}
+
+async function main2() {
+  const { products } = await getAllProducts2();
+  const res = await Promise.all(products.map(product => getProduct2(product.id)));
+  console.log(res);
+}
+
+main2()
