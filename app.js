@@ -1,31 +1,26 @@
 'use strict';
 
 /*
-  Другие комбинации
+  метод POST
 */
 
-async function getAllProducts() {
-  const responce = await fetch('https://dummyjson.com/products/');
-  return responce.json();
+/* В рамках функции залогинимся у dummyjsons.com */
+
+async  function main() {
+  const res = await fetch('https://dummyjson.com/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: 'kminchelle',
+      password: '0lelplR'
+    })
+  })
+  const data = await res.json()
+  console.log(data);
 }
 
-async function getProduct(id) {
-  const responce = await fetch('https://dummyjson.com/products/' + id);
-  return responce.json();
-}
+main()
 
-async function getProductError(id) {
-  const responce = await fetch('https://dummyjsons.com/products/' + id);
-  return responce.json();
-}
-
-async function main() {
-  const res1 = await Promise.all([getProduct(1), getProduct(2)]); // вернет если все запросы обработаны успешно. Внутри массива будут именно объекты элементов, которые необходимы
-  console.log(res1);
-  const res2 = await Promise.allSettled([getProduct(1), getProductError(2)]); // вернет в любом случае, даже если один упадет. Внутри массива будут лежать объекты, которые имеют статус и велью с нашими одбъектами элементов. Получается дополнительная вложенность
-  console.log(res2);
-  const res3 = await Promise.race([getProduct(1), getProduct(2)]); // вернет первым самый быстрый
-  console.log(res3);
-}
-
-main();
+/* Минус fetch - дополнительная конвертация json (20 строчка), на бэке используют чаще axios */
