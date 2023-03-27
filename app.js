@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-  Async await
+  try catch
 */
 
 function getProducts() {
@@ -42,5 +42,46 @@ async function getProducts2() {
 
 getProducts2();
 
+/* ---------------------------------------------------------------------- */
 
-/* Обработка ошибок через try catch */
+/* Обработка ошибок через try catch
+  try - попробуй выполнить код
+  catch - обработка ошибки 
+*/
+
+async function getProducts3() {
+  try {
+    const productsResponce = await fetch('https://dummyjson.com/productss');
+    if (!productsResponce.ok) {
+      throw new Error(`ERROR ${productsResponce.status}`)
+    }
+    const { products } = await productsResponce.json();
+
+    const productResponce = await fetch(
+      'https://dummyjson.com/products/' + products[0].id
+    );
+    const product = await productResponce.json();
+  } catch (error) {
+    console.error(error.message)
+  } finally {
+    console.log('Finally');
+  }
+}
+
+getProducts3();
+
+
+/* try catch работает не только с промисами */
+
+try {
+  const a = 5;
+  a = 6;
+} catch (error) {
+  console.error(error);
+}
+
+try {
+  JSON.parse('{d')
+} catch (error) {
+  console.error(error);
+}
