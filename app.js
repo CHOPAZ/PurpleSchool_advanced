@@ -1,34 +1,46 @@
 'use strict';
 
 /*
-  Упражнение создание fetch
-
-  Сделать функцию myFetch, которая выполняет внутри XMLHttpRequest, которая возвращает из себя промис, и мы можем его обрабатывать через then()
+  Async await
 */
 
-function myFetch(url) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.send();
+function getProducts() {
+  fetch('https://dummyjson.com/products')
+    .then((respons) => respons.json())
+    .then((data) => console.log(data));
+}
+getProducts();
+console.log('end');
 
-    xhr.addEventListener('load', function () {
-      if(this.status > 400) {
-        reject(new Error(this.status))
-      }
-      resolve(this.responseText);
-    });
+/* Перепишем на async await
 
-    xhr.addEventListener('error', function () {
-      reject(new Error(this.status));
-    });
+await говорит что: -Подождать пока отработает fetch запрос, и положить его в res
+*/
 
-    xhr.addEventListener('timeout', function () {
-      reject(new Error('Timiout'));
-    });
-  });
+/* Функция по умолчанию возращает промис */
+async function getProducts1() {
+  const res = await fetch('https://dummyjson.com/products');
+  const data = await res.json();
+  console.log(data);
 }
 
-myFetch('https://dummyjson.com/products')
-  .then((data) => console.log(data))
-  .catch((err) => console.error(err));
+getProducts1();
+
+/* Несколько запросов */
+
+async function getProducts2() {
+  const productsResponce = await fetch('https://dummyjson.com/products');
+  const { products } = await productsResponce.json();
+  console.log(products);
+
+  const productResponce = await fetch(
+    'https://dummyjson.com/products/' + products[0].id
+  );
+  const product = await productResponce.json();
+  console.log(product);
+}
+
+getProducts2();
+
+
+/* Обработка ошибок через try catch */
