@@ -1,27 +1,45 @@
 'use strict';
 
 /*
-  Визуальное положение элементов
+  Типы событий и обработчики
+  Event. Подписка на event. Обработка event. Oтписываться от event
+
+  Минусы.
+  1. Поялвение JS внутри html.
+
+  Плюсы:
+  1. Наглядно видно в разметке что произойдет с кнопкой
 */
 
+/* Добавление ручного события
+
+  Плюсы:
+  1. Добавление неограченное число слушателей на одно и тоже событие  
+*/
+const btn = document.querySelector('.activity__btn');
+btn.addEventListener('click', (event) => {
+  console.log('event 1');
+});
+btn.addEventListener('click', (event) => {
+  console.log('event 2');
+});
+
+/* Добавление через HTML разметку */
 function generate(event) {
-  console.log(`X offset ${window.pageXOffset}`);
-  console.log(`Y offset ${window.pageYOffset}`);
-  console.log(`clientWidth: ${document.documentElement.clientWidth}`);
-  console.log(`clientHeigth: ${document.documentElement.clientHeight}`);
-  /* Где распологается конкретный элемент */
-  console.log(event.target.getBoundingClientRect()); //выведет все параметры расположения элемента кнопки относительно нашего view-ort
-  console.log(event.target);
-
-  /* ИНфо о расположении элемента down */
-  const el = document.querySelector('.down');
-  const rectDown = el.getBoundingClientRect()
-
-
-  /* Скролинг. При нажатии на кнопку генерации  доскролить до нужного элемента*/
-  window.scrollTo({
-    left: window.pageXOffset + rectDown.left,
-    top: window.pageYOffset + rectDown.top,
-    behavior: 'smooth' // плавный скрол до элемента
-  })
+  console.log(event);
 }
+
+/* Третий способ - редкий */
+// btn.onclock = function () {};
+
+
+/* Если обработчик не нужен, лучше его удалить, иначе будут утечки памяти */
+
+/* Удаление эвента */
+
+const eventHandler = function(event) {
+  console.log('event 3');
+  btn.removeEventListener('click', eventHandler)
+}
+
+btn.addEventListener('click', eventHandler)
