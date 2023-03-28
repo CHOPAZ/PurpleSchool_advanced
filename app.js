@@ -1,37 +1,50 @@
 'use strict';
 
 /*
-  Упражнение - Генератор активностей
+  Как работает DOM более детально
+  JS - DOM API (Управление HTML документом) - Browser
 
-  Сделать генератор 3х идей от скуки
-  https://www.boredapi.com/api/activity
-	с отображением на странице
+  Рабоа с элементами
 */
 
-/* Перенеся wrapper наверх, необходимо в index.html сделать скрипт defer - загрузит скрипт после готовности html*/
-const wrapper = document.querySelector('.wrapper');
+console.log(document);
+console.log(document.documentElement);
+console.log(document.head);
+console.log(document.body);
 
-/* Получение карточек */
-async function getActivity() {
-  const responce = await fetch('https://www.boredapi.com/api/activity');
-  return responce.json();
-}
+const el = document.querySelector('.wrapper');
+const el2 = document.querySelectorAll('meta');
+console.log(el);
+console.log(el2);
 
-/* Генерация активности */
-async function generate() {
-  try {
-    wrapper.innerHTML = '';
-    const data = await Promise.all([
-      getActivity(),
-      getActivity(),
-      getActivity(),
-    ]);
-    for (const el of data) {
-      const element = document.createElement('div');
-      element.innerHTML = `${el.activity}`;
-      wrapper.appendChild(element);
-    }
-  } catch (error) {
-    console.error(error);
-  }
+const el3 = document.getElementsByClassName('wrapper');
+const el4 = document.getElementsByTagName('meta');
+console.log(el3);
+console.log(el4);
+
+const btn = document.createElement('button');
+const btn2 = document.createElement('button');
+const btn3 = document.createElement('button');
+const btn4 = document.createElement('button');
+btn.innerHTML = 'BTN-Append';
+btn2.innerHTML = 'BTN-Prepend';
+btn3.innerHTML = 'BTN-Befor';
+btn4.innerHTML = 'BTN-After';
+
+/* Добавить вконец wrapepr */
+el.append(btn);
+
+/* Добавить вначало wrapper */
+el.prepend(btn2);
+
+/* Добавление перед wrapper */
+el.before(btn3);
+
+/* Добавление после wraper */
+el.after(btn4);
+
+/* Удаление элемента */
+
+function generate() {
+  el.remove();
 }
