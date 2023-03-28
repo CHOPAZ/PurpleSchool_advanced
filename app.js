@@ -1,45 +1,61 @@
 'use strict';
 
 /*
-  Типы событий и обработчики
-  Event. Подписка на event. Обработка event. Oтписываться от event
+  Всплытие событий.
+  Как работают нажатия, собыития
 
-  Минусы.
-  1. Поялвение JS внутри html.
+  Click (захват) ---------------------------->
+  Document -> Html -> Body -> Div -> P -> Button (отработка событий)
+  Всплытие <----------------------------------
+  
+  1. Фаза захвата
+  2. Всплытие. После отработки события, событие начинает всплывать в обратном порядке
 
-  Плюсы:
-  1. Наглядно видно в разметке что произойдет с кнопкой
+  По умолчанию обработчики реагируют на всплытие по каждому родительскому элементу
+  
+  Всплытием можно управлять: останавливать, отработка собыия в фазе захвата
 */
 
-/* Добавление ручного события
+const btn = document.querySelector('.button');
+const inner = document.querySelector('.inner');
+const wrapper = document.querySelector('.wrapper');
 
-  Плюсы:
-  1. Добавление неограченное число слушателей на одно и тоже событие  
+btn.addEventListener('click', function (event) {
+  console.log('button');
+  console.log(event.target);
+  console.log(event.currentTarget);
+  this.style.background = 'purple';
+});
+inner.addEventListener('click', function (event) {
+  console.log('inner');
+  console.log(event.target);
+  console.log(event.currentTarget);
+  this.style.background = 'blue';
+  event.stopPropagation(); // остановит всплытие
+});
+wrapper.addEventListener('click', function (event) {
+  console.log('wrapper');
+  console.log(event.target);
+  console.log(event.currentTarget);
+  this.style.background = 'green';
+
+}, true); // Фаза захвата. true - работа в рамке погружении
+
+/* При нажатии на кнопку все покрасится в свой цвет ^
+  В консоле выведится сначала button, inner, wrapper - работа всплытия
+
+  event.target выведет в трех случаях button
+  event.target - то на что изначально было произведено нажатие
+
+  event.currentTarget - выведется button, inner, wrapper
+  event.currentTarget - текущий таргет
 */
-const btn = document.querySelector('.activity__btn');
-btn.addEventListener('click', (event) => {
-  console.log('event 1');
-});
-btn.addEventListener('click', (event) => {
-  console.log('event 2');
-});
 
-/* Добавление через HTML разметку */
-function generate(event) {
-  console.log(event);
-}
+/* 
+event.stopPropagation() - остановит всплытие 
+ */
 
-/* Третий способ - редкий */
-// btn.onclock = function () {};
-
-
-/* Если обработчик не нужен, лучше его удалить, иначе будут утечки памяти */
-
-/* Удаление эвента */
-
-const eventHandler = function(event) {
-  console.log('event 3');
-  btn.removeEventListener('click', eventHandler)
-}
-
-btn.addEventListener('click', eventHandler)
+/* Получение фазы захвата - редко
+  true
+  Теперь в консоле выведется wrapper button inner
+*/
