@@ -1,63 +1,40 @@
 'use strict';
 
 /*
-  Делегирование событий.
-
-  Польза от всплытия событий в рамках например работы с большими списками.
+ Перемещение по DOM
 
 */
 
+const wrapper = document.querySelector('.wrapepr');
+const inner = document.querySelector('.inner');
+const button = document.querySelector('.button');
+console.log(button);
 
-// const btn = document.querySelector('.button');
-// const inner = document.querySelector('.inner');
-const wrapper = document.querySelector('.wrapper');
+/* Получение от Inner части элементов */
 
+/* Получение дочерних элементов */
+console.log(inner.childNodes); //NodeList из всех входящиъ элементов. Пробел обозначается как text
 
-// btn.addEventListener('click', function (event) {
-//   console.log('button');
-//   console.log(event.target);
-//   console.log(event.currentTarget);
-//   this.style.background = 'purple';
-// });
-// inner.addEventListener('click', function (event) {
-//   console.log('inner');
-//   console.log(event.target);
-//   console.log(event.currentTarget);
-//   this.style.background = 'blue';
-//   event.stopPropagation(); // остановит всплытие
-// });
-// wrapper.addEventListener('click', function (event) {
-//   console.log('wrapper');
-//   console.log(event.target);
-//   console.log(event.currentTarget);
-//   this.style.background = 'green';
+console.log(inner.children); //HtmlCollection - 3 кнопки
+console.log([...inner.children]); // массив из кнопок
 
-// });
+/* Получение родительских элементов (wrapper) */
+console.log(inner.parentElement); // два метода идентичны, потому они являются элементом
+console.log(inner.parentNode);
 
-/* Проблематика.
-
-  Создание списка из 100 пользователей.
-  Под капотом 100 строк и к ней создано 100 функций. Если 1000 - 1000.
-  Все они лишние.
-
-  Делегирование событий более верхнему родителю
-
+/* Найти элемент в дереве, но он не является потомком 
+  closest - возвращает ближайшего родителя по определенному селектору
 */
-for (let i = 1; i <= 100; i++) {
-  const el = document.createElement('div');
-  el.innerHTML = `User id ${i}`;
-  el.setAttribute('data-id', i)
-  // el.addEventListener('click', () => {
-  //   console.log(`Deleted user id ${i}`);
-  // })
-  wrapper.append(el);
-}
+console.log(button.closest('.wrapper')); // wrapper
 
-/* Вместо обработчика событий на каждый элемент, сделать обработчик для wrapper
+/* Поиск элемента на одном уровне */
+console.log(button.previousElementSibling); // null - ближайшего элемента вверх нет
+console.log(button.previousSibling); //text - ближайший элемент к inner пробел
+console.log(button.nextElementSibling); // button Second
+console.log(button.nextSibling); // text - пробел
 
-  Происходит обработка элемента в рамках wrapper, одной функцией. Нет функций на каждый элемент
-*/
-wrapper.addEventListener('click', (e)=> {
-  const i = e.target.getAttribute('data-id')
-  console.log(`Deleted user ${i}`);
-})
+console.log(button.parentElement.children); // HtmlCollection - 3 кнопки
+
+/* Поиск от определенного элемента */
+
+
