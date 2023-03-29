@@ -1,30 +1,24 @@
 'use strict';
 
 /*
-  Жизненный цикл событий DOM
-
+  Динамически создать N элементов с текстом и поле для поиска. При вводе в поле, выделять элементы, которые содержат введенный текс
   */
 
-/* 
- 1. Загрузился контект документа
-*/
+const wrapper = document.querySelector('.wrapper');
 
-/* DOMContentLoaded - отработает когда загрузится html страница и построится дом дерево. Не отработает когда есть дополнительные тяжелые загрузки ( например картинки) */
-document.addEventListener('DOMContentLoaded', (e) => {
-  console.log('DOMContentLoaded');
-  console.log(e);
-});
+for (let i = 1; i <= 10; i++) {
+  const el = document.createElement('div');
+  el.innerHTML = i;
+  wrapper.append(el);
+}
 
-/* load - полностью загрузится документ и все что внутри  */
-window.addEventListener('load', (e) => {
-  console.log('load');
-  console.log(e);
-});
-
-/* beforeunload - сработает перед выгрузкой страницы (закрытие, переход на другую)
-  Используется для предупреждения пользователя (есть несохраненные данные, уверен ли пользователь что хочет выйти и тд)
-*/
-window.addEventListener('beforeunload', function (e) {
-  e.preventDefault();
-  e.returnValue = '';
-});
+function search(event) {
+  const inputValue = event.target.value;
+  for (const el of [...wrapper.children]) {
+    if (el.innerHTML.includes(inputValue)) {
+      el.classList.add('yellow');
+      continue;
+    }
+    el.classList.remove('yellow')
+  }
+}
