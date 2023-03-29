@@ -1,24 +1,19 @@
 'use strict';
 
 /*
-  Динамически создать N элементов с текстом и поле для поиска. При вводе в поле, выделять элементы, которые содержат введенный текс
+  Загрузка скриптов defer и async
+
+  1. Без атрибутов (в head)
+  Парсинг HTML -> Загрузка и выполнение JS -> Парсинг HTML 
+
+  1.1. Без атрибутов (в конце body)
+  Парсинг HTML -----> Загрузка и выполнение JS
+
+  2. async (в head) - во времени парсинга HTML параллельно загружается и выполняется JS
+
+  3. defer (в head) - во время парсинга html загружает JS, но выполняет его после загркзки всего HTML
+
+
   */
 
-const wrapper = document.querySelector('.wrapper');
 
-for (let i = 1; i <= 10; i++) {
-  const el = document.createElement('div');
-  el.innerHTML = i;
-  wrapper.append(el);
-}
-
-function search(event) {
-  const inputValue = event.target.value;
-  for (const el of [...wrapper.children]) {
-    if (el.innerHTML.includes(inputValue)) {
-      el.classList.add('yellow');
-      continue;
-    }
-    el.classList.remove('yellow')
-  }
-}
