@@ -1,61 +1,63 @@
 'use strict';
 
 /*
-  Всплытие событий.
-  Как работают нажатия, собыития
+  Делегирование событий.
 
-  Click (захват) ---------------------------->
-  Document -> Html -> Body -> Div -> P -> Button (отработка событий)
-  Всплытие <----------------------------------
-  
-  1. Фаза захвата
-  2. Всплытие. После отработки события, событие начинает всплывать в обратном порядке
+  Польза от всплытия событий в рамках например работы с большими списками.
 
-  По умолчанию обработчики реагируют на всплытие по каждому родительскому элементу
-  
-  Всплытием можно управлять: останавливать, отработка собыия в фазе захвата
 */
 
-const btn = document.querySelector('.button');
-const inner = document.querySelector('.inner');
+
+// const btn = document.querySelector('.button');
+// const inner = document.querySelector('.inner');
 const wrapper = document.querySelector('.wrapper');
 
-btn.addEventListener('click', function (event) {
-  console.log('button');
-  console.log(event.target);
-  console.log(event.currentTarget);
-  this.style.background = 'purple';
-});
-inner.addEventListener('click', function (event) {
-  console.log('inner');
-  console.log(event.target);
-  console.log(event.currentTarget);
-  this.style.background = 'blue';
-  event.stopPropagation(); // остановит всплытие
-});
-wrapper.addEventListener('click', function (event) {
-  console.log('wrapper');
-  console.log(event.target);
-  console.log(event.currentTarget);
-  this.style.background = 'green';
 
-}, true); // Фаза захвата. true - работа в рамке погружении
+// btn.addEventListener('click', function (event) {
+//   console.log('button');
+//   console.log(event.target);
+//   console.log(event.currentTarget);
+//   this.style.background = 'purple';
+// });
+// inner.addEventListener('click', function (event) {
+//   console.log('inner');
+//   console.log(event.target);
+//   console.log(event.currentTarget);
+//   this.style.background = 'blue';
+//   event.stopPropagation(); // остановит всплытие
+// });
+// wrapper.addEventListener('click', function (event) {
+//   console.log('wrapper');
+//   console.log(event.target);
+//   console.log(event.currentTarget);
+//   this.style.background = 'green';
 
-/* При нажатии на кнопку все покрасится в свой цвет ^
-  В консоле выведится сначала button, inner, wrapper - работа всплытия
+// });
 
-  event.target выведет в трех случаях button
-  event.target - то на что изначально было произведено нажатие
+/* Проблематика.
 
-  event.currentTarget - выведется button, inner, wrapper
-  event.currentTarget - текущий таргет
+  Создание списка из 100 пользователей.
+  Под капотом 100 строк и к ней создано 100 функций. Если 1000 - 1000.
+  Все они лишние.
+
+  Делегирование событий более верхнему родителю
+
 */
+for (let i = 1; i <= 100; i++) {
+  const el = document.createElement('div');
+  el.innerHTML = `User id ${i}`;
+  el.setAttribute('data-id', i)
+  // el.addEventListener('click', () => {
+  //   console.log(`Deleted user id ${i}`);
+  // })
+  wrapper.append(el);
+}
 
-/* 
-event.stopPropagation() - остановит всплытие 
- */
+/* Вместо обработчика событий на каждый элемент, сделать обработчик для wrapper
 
-/* Получение фазы захвата - редко
-  true
-  Теперь в консоле выведется wrapper button inner
+  Происходит обработка элемента в рамках wrapper, одной функцией. Нет функций на каждый элемент
 */
+wrapper.addEventListener('click', (e)=> {
+  const i = e.target.getAttribute('data-id')
+  console.log(`Deleted user ${i}`);
+})
