@@ -1,40 +1,30 @@
 'use strict';
 
 /*
- Перемещение по DOM
+  Жизненный цикл событий DOM
 
+  */
+
+/* 
+ 1. Загрузился контект документа
 */
 
-const wrapper = document.querySelector('.wrapepr');
-const inner = document.querySelector('.inner');
-const button = document.querySelector('.button');
-console.log(button);
+/* DOMContentLoaded - отработает когда загрузится html страница и построится дом дерево. Не отработает когда есть дополнительные тяжелые загрузки ( например картинки) */
+document.addEventListener('DOMContentLoaded', (e) => {
+  console.log('DOMContentLoaded');
+  console.log(e);
+});
 
-/* Получение от Inner части элементов */
+/* load - полностью загрузится документ и все что внутри  */
+window.addEventListener('load', (e) => {
+  console.log('load');
+  console.log(e);
+});
 
-/* Получение дочерних элементов */
-console.log(inner.childNodes); //NodeList из всех входящиъ элементов. Пробел обозначается как text
-
-console.log(inner.children); //HtmlCollection - 3 кнопки
-console.log([...inner.children]); // массив из кнопок
-
-/* Получение родительских элементов (wrapper) */
-console.log(inner.parentElement); // два метода идентичны, потому они являются элементом
-console.log(inner.parentNode);
-
-/* Найти элемент в дереве, но он не является потомком 
-  closest - возвращает ближайшего родителя по определенному селектору
+/* beforeunload - сработает перед выгрузкой страницы (закрытие, переход на другую)
+  Используется для предупреждения пользователя (есть несохраненные данные, уверен ли пользователь что хочет выйти и тд)
 */
-console.log(button.closest('.wrapper')); // wrapper
-
-/* Поиск элемента на одном уровне */
-console.log(button.previousElementSibling); // null - ближайшего элемента вверх нет
-console.log(button.previousSibling); //text - ближайший элемент к inner пробел
-console.log(button.nextElementSibling); // button Second
-console.log(button.nextSibling); // text - пробел
-
-console.log(button.parentElement.children); // HtmlCollection - 3 кнопки
-
-/* Поиск от определенного элемента */
-
-
+window.addEventListener('beforeunload', function (e) {
+  e.preventDefault();
+  e.returnValue = '';
+});
