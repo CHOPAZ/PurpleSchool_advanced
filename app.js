@@ -1,14 +1,13 @@
 'use strict';
 
 /*
-  IIFE в модулях
+  Модули commonjs - полное исполнение файла.
+  В браузере это работать не будет, нужен bundler для сборки
+
+  Работа в терминале
 */
 
+const { add, sub } = require('./calc.js');
 
-
-
-(function () {
-  const a = 1;
-  console.log(APP.calc.add(1, 3));
-  console.log(APP.calc.sub(1, 3));
-})();
+console.log(add(1, 3));
+console.log(sub(1, 3));
