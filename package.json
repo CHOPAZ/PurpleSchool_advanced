@@ -1,0 +1,22 @@
+{
+  "name": "book-app",
+  "version": "1.0.0",
+  "description": "Cool book app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CHOPAZ/PurpleSchool_advanced.git"
+  },
+  "keywords": [
+    "books"
+  ],
+  "author": "Pavel Kvasnickiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CHOPAZ/PurpleSchool_advanced/issues"
+  },
+  "homepage": "https://github.com/CHOPAZ/PurpleSchool_advanced#readme"
+}
