@@ -1,13 +1,13 @@
 'use strict';
 
-function add(f, s) {
+export function add(f, s) {
   return f + s;
 }
 
-function sub(f, s) {
+export function sub(f, s) {
   return f - s;
 }
 
+console.log('test'); // выведится первым
 
-console.log('test');
-module.exports = { add, sub };
+
