@@ -8,6 +8,11 @@ export function sub(f, s) {
   return f - s;
 }
 
-console.log('test'); // выведится первым
 
 
+async function getProducts() {
+  const res = await fetch('http://dummyjson.com/products');
+  return res.json();
+}
+
+export const res = await getProducts()
